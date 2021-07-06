@@ -3,7 +3,7 @@
     <style name="Theme.RxJavaPizdec" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/biege</item>
-        <item name="colorPrimaryVariant">@color/brown</item>
+        <item name="colorPrimaryVariant">#E3C591</item>
         <item name="colorOnPrimary">@color/biege</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue</item>
