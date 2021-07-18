@@ -3,21 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/editFragment2">
+    app:startDestination="@id/mainFragment">
 
 
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.rxjavapizdec.screens.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
-    <fragment
-        android:id="@+id/editFragment2"
-        android:name="com.example.rxjavapizdec.screens.EditFragment"
-        android:label="fragment_edit"
-        tools:layout="@layout/fragment_edit" >
+        tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_editFragment2_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_mainFragment_to_createNoteFragment"
+            app:destination="@id/createNoteFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_editNoteFragment"
+            app:destination="@id/editNoteFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNoteFragment"
+        android:name="com.example.rxjavapizdec.screens.CreateNoteFragment"
+        android:label="fragment_create_note"
+        tools:layout="@layout/fragment_create_note" />
+    <fragment
+        android:id="@+id/editNoteFragment"
+        android:name="com.example.rxjavapizdec.screens.EditNoteFragment"
+        android:label="EditNoteFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.rxjavapizdec.screens.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_editNoteFragment"
+            app:destination="@id/editNoteFragment" />
     </fragment>
 </navigation>

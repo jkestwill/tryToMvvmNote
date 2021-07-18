@@ -23,7 +23,7 @@ class NoteRepository(
     private val TAG="NodeRepository"
 
 
-   override fun getAllNotes(): Flowable<List<Note>> =db.noteDao().getAll()
+   override fun getAllNotes(): Single<List<Note>> = db.noteDao().getAll()
 
 
     override fun insert(note:Note): Maybe<Long> = db.noteDao().insert(note)

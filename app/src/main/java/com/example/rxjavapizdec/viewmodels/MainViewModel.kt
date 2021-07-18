@@ -10,22 +10,26 @@ import com.example.rxjavapizdec.NoteApp
 import com.example.rxjavapizdec.models.Note
 import com.example.rxjavapizdec.repository.NoteRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
-    val noteRepository = NoteRepository((application as NoteApp).database)
-   private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val noteRepository = NoteRepository((application as NoteApp).database)
+    private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
     val noteList: MutableLiveData<List<Note>> = MutableLiveData<List<Note>>()
 
     companion object {
         const val TAG = "MainActivityViewModel"
     }
 
-    fun getNotes() {
 
+
+
+    // #################### db works ####################
+    fun getNotes() {
         disposable.add(noteRepository
             .getAllNotes()
             .subscribeOn(Schedulers.newThread())
@@ -33,9 +37,6 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
             .subscribe(
                 {
                     noteList.postValue(it)
-                },
-                {
-                    Log.e(TAG, "Error:${it.message.toString()}")
                 },
                 {
                     Log.e("Ya v ahue","sheeeeees")

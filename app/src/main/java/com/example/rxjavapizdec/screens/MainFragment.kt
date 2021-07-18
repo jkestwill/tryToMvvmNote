@@ -1,68 +1,85 @@
 package com.example.rxjavapizdec.screens
 
-import android.R.attr.bitmap
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.os.Bundle
-import android.view.View
-import android.widget.EditText
-import android.widget.ImageButton
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import android.view.View
+import android.widget.ImageButton
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rxjavapizdec.R
-import com.example.rxjavapizdec.models.Note
-import com.example.rxjavapizdec.models.Styles
-import com.example.rxjavapizdec.other.screenShot
-import com.example.rxjavapizdec.other.screenShotToByteArray
-import com.example.rxjavapizdec.viewmodels.MainActivityViewModel
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.rxjavapizdec.adapters.MainFragmentRecViewAdapter
+import com.example.rxjavapizdec.other.OnItemSwap
+import com.example.rxjavapizdec.viewmodels.MainViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+class MainFragment : Fragment(R.layout.fragment_main),
+    MainFragmentRecViewAdapter.OnItemClickListener {
 
-class MainFragment : Fragment(R.layout.fragment_main) {
-    private val viewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var title: EditText
-    private lateinit var desc: EditText
-    private lateinit var screenShotView:NestedScrollView
+    private val viewModel: MainViewModel by activityViewModels()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewAdapter: MainFragmentRecViewAdapter
+    private lateinit var searchButton:ImageButton
+    private lateinit var createNoteButton:FloatingActionButton
+    private val TAG = "EditFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val button = view.findViewById<ImageButton>(R.id.edit_fragment_back)
-        title = view.findViewById(R.id.title)
-        desc = view.findViewById(R.id.desc)
-        screenShotView=view.findViewById(R.id.fragment_main_nested_scroll_view)
-
-        val currentDate = SimpleDateFormat(
-            "dd.MM.yyyy",
-            Locale.getDefault()
-        )
-            .format(Date())
-
-        button.setOnClickListener {
-            viewModel.insert(
-                Note(
-                    title.text.toString(),
-                    desc.text.toString(),
-                   screenShotToByteArray(screenShot(screenShotView)) ,
-                    Styles(
-                        1,
-                        false
-                    ),
-                    currentDate
-                )
-
-            )
-            findNavController().popBackStack()
+        initRecyclerViewAdapter()
+       initViews()
+        createNoteButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_createNoteFragment)
         }
+        searchButton.setOnClickListener{
+            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
+        }
+
+        viewModel.getNotes()
+        viewModel.noteList.observe(viewLifecycleOwner, {
+            recyclerViewAdapter.update(it)
+        })
+
+
     }
 
 
+    private fun initRecyclerViewAdapter() {
+        recyclerView = requireView().findViewById(R.id.fragment_main_recycler_view)
+        recyclerViewAdapter = MainFragmentRecViewAdapter(this)
+        recyclerView.adapter = recyclerViewAdapter
+        recyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            true
+        )
+        val swipeHandler = object : OnItemSwap(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                //remove items
+                viewModel.delete(recyclerViewAdapter.getItemAt(viewHolder.adapterPosition))
+                recyclerViewAdapter.removeAt(viewHolder.adapterPosition)
 
+            }
 
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
+    }
+    private fun initViews(){
+        createNoteButton=requireView().findViewById(R.id.crete_new_note)
+        searchButton=requireView().findViewById(R.id.fragment_main_search)
+    }
+
+    override fun onClick(pos: Int) {
+
+       //send note data from recycler view item to EditNoteFragment  and open EditNoteFragment
+        val note = recyclerViewAdapter.getItemAt(pos)
+        val bundle = Bundle()
+        bundle.putSerializable("note", note)
+        findNavController().navigate(R.id.action_mainFragment_to_editNoteFragment, bundle)
+    }
 
 
 }

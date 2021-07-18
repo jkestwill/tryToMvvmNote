@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.*
 @Dao
 interface NoteDAO {
     @Query("SELECT * FROM note")
-    fun getAll(): Flowable<List<Note>>
+    fun getAll(): Single<List<Note>>
 
     @Delete
     fun delete( note:Note):Single<Int>

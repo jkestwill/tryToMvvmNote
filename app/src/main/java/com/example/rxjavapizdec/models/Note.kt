@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class Note(
@@ -18,7 +19,7 @@ data class Note(
     var styles: Styles,
     @ColumnInfo(name = "date")
     val date: String
-){
+):Serializable{
 
     @PrimaryKey(autoGenerate =true)
     var uid: Long=0
