@@ -10,30 +10,20 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/view_group_shape"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
+
             android:outlineSpotShadowColor="@color/white"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <TextView
-                android:layout_width="200dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="All notes"
-                android:textColor="@color/black"
-                android:textSize="40sp"
-                app:layout_collapseMode="pin" />
+           >
 
 
             <Toolbar
@@ -42,8 +32,18 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal"
-                app:layout_scrollFlags="scroll|enterAlways">
+                app:layout_scrollFlags="noScroll"
+               >
+                <TextView
+                    android:id="@+id/small_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:alpha="0"
+                    android:text="@string/all_notes"
+                    android:textColor="@color/black"
 
+                    />
                 <ImageButton
                     android:id="@+id/fragment_main_search"
                     style="?android:attr/borderlessButtonStyle"
@@ -91,8 +91,23 @@
         android:layout_marginVertical="50dp"
         android:layout_marginTop="580dp"
         android:layout_marginEnd="10dp"
-        android:contentDescription="add"
+        android:contentDescription="@string/add"
         android:src="@drawable/add_plus_new_icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/all_notes"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:padding="20dp"
+        app:layout_anchor="@+id/appbar"
+        app:layout_anchorGravity="center"
+        app:layout_behavior=".customViews.TextViewBehavior"
+        app:layout_collapseMode="parallax"
+         />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

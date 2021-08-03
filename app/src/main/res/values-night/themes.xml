@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.RxJavaPizdec" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.NoteApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/biege</item>
-        <item name="colorPrimaryVariant">@color/brown</item>
-        <item name="colorOnPrimary">@color/biege</item>
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryVariant">#FFFFFF</item>
+        <item name="colorOnPrimary">@color/light_blue</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue</item>
         <item name="colorSecondaryVariant">@color/light_blue</item>
